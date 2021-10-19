@@ -27,7 +27,8 @@ class Score extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['score_a', 'score_b'], 'integer'],
+            [['score_a', 'score_b', 'rounds'], 'integer'],
+            [['turn'], 'boolean']
         ];
     }
 

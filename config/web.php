@@ -73,10 +73,13 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => [
-                        'v1/score' => 'v1/score'
+                        'score' => 'score'
                     ],
                     'extraPatterns' => [
-                        'POST set' => 'set'
+                        'POST set/{id}' => 'set'
+                    ],
+                    'tokens' => [
+                        '{id}' => '<id:\\w+>'
                     ]
                 ]
             ],
