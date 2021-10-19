@@ -6,25 +6,38 @@ $db = require __DIR__ . '/db.php';
 $config = [
     'id' => 'basic',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => [
+        'log',
+        'contentNegotiator' => [
+            'class' => \yii\filters\ContentNegotiator::class,
+            'formats' => [
+                'application/json' => \yii\web\Response::FORMAT_JSON,
+                'application/xml' => \yii\web\Response::FORMAT_XML,
+            ],
+        ],
+    ],
     'aliases' => [
         '@bower' => '@vendor/bower-asset',
         '@npm'   => '@vendor/npm-asset',
     ],
-    'contentNegotiator' => [
-        'class' => \yii\filters\ContentNegotiator::class,
-        'formats' => [
-            'application/json' => \yii\web\Response::FORMAT_JSON,
-            'application/xml' => \yii\web\Response::FORMAT_XML,
-        ],
+    
     'components' => [
         'request' => [
+            // desabilitando validações de cookie e CSRF porque não são utilizadas
+            'enableCookieValidation' => false,
+            'enableCsrfCookie' => false,
+            'enableCsrfValidation' => false,
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
+        ],
+        /* 'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'cgSoB_fDoSCpWg0gI1yK0r_crciRb4bi',
         ],
         'parsers' => [
-            'application/json' => \yii\web\JsonParser::class,
-        ],
+            'application/json' => 'yii\web\JsonParser',
+        ], */
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
@@ -52,14 +65,23 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
+        
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
+                [
+                    'class' => 'yii\rest\UrlRule',
+                    'controller' => [
+                        'v1/score' => 'v1/score'
+                    ],
+                    'extraPatterns' => [
+                        'POST set' => 'set'
+                    ]
+                ]
             ],
         ],
-        */
+       
     ],
     'params' => $params,
 ];
