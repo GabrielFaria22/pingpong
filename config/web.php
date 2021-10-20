@@ -73,7 +73,7 @@ $config = [
                 [
                     'class' => 'yii\rest\UrlRule',
                     'controller' => [
-                        'score' => 'score'
+                        'game'
                     ],
                     'extraPatterns' => [
                         'POST set/{id}' => 'set'
