@@ -18,6 +18,12 @@ class GameController extends ActiveController
     {
         $scoreParams = Yii::$app->request->post('score');
 
+
+        $model = new DynamicModel(['score']);
+        $model->addRule('score', 'required');
+        $model->defineAttribute('score', $scoreParams);
+        if (!$model->validate('score')) return "missing score param on body.";
+        
         $score = explode(':', $scoreParams);
 
         $game = Game::findOne($id);
